@@ -1,0 +1,7 @@
+# Cloudflare Worker "goog-dashboard": live quote API only (/api/quote?symbol=GOOGL|GOOG). Static site is served by GitHub Pages.
+name = "goog-dashboard"
+main = "worker.js"
+compatibility_date = "2025-06-01"
+workers_dev = true
+[observability]
+enabled = true

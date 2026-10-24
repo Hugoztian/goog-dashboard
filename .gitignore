@@ -1,0 +1,10 @@
+src/
+x_raw/
+preview*.png
+worker/.wrangler/
+check_page.py
+GAPS.md
+build_*.py
+shot.sh
+preview_*.png
+x_raw/
