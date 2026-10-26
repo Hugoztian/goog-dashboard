@@ -37,7 +37,7 @@ S.overview=()=>{const fcf=SEC.fs.cf.find(r=>r[0]==='Free cash flow').slice(1),tf
  <div class="h4">${hc(T('Market cap'),mcapTxt(),`${'Scaled from'} $3.92T @ $320.21 · ${lk('stockanalysis.com, 24 Oct 2026',D.val.src)}`,'mcap')}
  ${hc(T('Forward P/E'),'23.9x',`${'Trailing'} 16.1x ${'(inflated by equity gains)'} · ${lk('stockanalysis.com',D.val.src)}`)}
  ${hc(T('EV/EBITDA'),'21.9x',`EV $3.79T · ${lk('stockanalysis.com',D.val.src)}`)}
- ${hc(T('Consensus'),'Strong Buy',`${T('Mean target')} <b>$430.51</b> · ${r.sb}/${r.b}/${r.h}/${r.s} (${n}) · ${lk('S&P Global via stockanalysis, '+r.asof,r.src)}`)}</div>
+ ${hc(T('Consensus'),'Strong Buy',`${T('Mean target')} <b>${r.mean?'$'+r.mean.toFixed(2):'n/a'}</b> · ${r.sb}/${r.b}/${r.h}/${r.s} (${n}) · ${lk('S&P Global via stockanalysis, '+r.asof,r.src)}`)}</div>
  <div class="h2row"><div class="mini"><div class="l">${T('52-week range')}</div><div class="v">$${D.close.lo}–$${D.close.hi}</div></div>
  <div class="mini"><div class="l">${'TTM free cash flow'}</div><div class="v">${b1(tf/1e9)}</div><div class="s">${lk('SEC XBRL',XBRL)}</div></div>
  <div class="mini"><div class="l">${'FY2026 capex guide'}</div><div class="v">$195–205bn</div><div class="s">${lk('Q2 call',D.q2call)}</div></div>
