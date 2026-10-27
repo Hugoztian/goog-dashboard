@@ -1,6 +1,6 @@
 window.GOOG_DATA={
-asof:"Prices: 23 Oct 2026 US close (24 Oct 04:00 SGT; no session since, checked 26 Oct 08:40 SGT via Nasdaq.com). Financials: through Q2 2026 (reported 22 Jul 2026 US). Q3 2026 results due 28 Oct US after close (29 Oct ~04:00 SGT).",
-close:{px:320.21,chg:-1.24,date:"23 Oct 2026",lo:251.85,hi:408.61,src:"https://www.nasdaq.com/market-activity/stocks/googl/historical"},
+asof:"Prices: 26 Oct 2026 US close (27 Oct 04:00 SGT; GOOGL $316.80, −1.06% vs $320.21 on 23 Oct; checked 27 Oct 08:40 SGT via Nasdaq.com quote and CNBC). 52-week range: CNBC, 26 Oct 2026. Financials: through Q2 2026 (reported 22 Jul 2026 US). Q3 2026 results due Wed 28 Oct US after close (29 Oct ~04:00 SGT).",
+close:{px:316.80,chg:-1.06,date:"26 Oct 2026",lo:264.28,hi:408.61,goog:314.19,googChg:-0.97,src:"https://www.nasdaq.com/market-activity/stocks/googl"},
 Q:["Q3'24","Q4'24","Q1'25","Q2'25","Q3'25","Q4'25","Q1'26","Q2'26"],
 REV:[88.268,96.469,90.234,96.428,102.346,113.829,109.896,119.796],
 OPI:[28.521,30.972,30.606,31.271,31.228,35.934,39.696,40.770],
@@ -10,7 +10,7 @@ FCF:[17.637,24.837,18.953,5.301,24.461,24.551,10.116,-5.855],
 YOY:["15.1%","11.8%","12.0%","13.8%","16.0%","18.0%","21.8%","24.2%"],
 SEG:{"Search & other":[49.385,54.034,50.702,54.190,56.567,63.073,60.399,63.271],"YouTube ads":[8.921,10.473,8.927,9.796,10.261,11.383,9.883,11.055],"Network":[7.548,7.954,7.256,7.354,7.354,7.828,6.971,7.303],"Subs, platforms & devices":[10.656,11.633,10.379,11.203,12.870,13.578,12.384,12.911],"Cloud":[11.353,11.955,12.260,13.624,15.157,17.664,20.028,24.768],"Other Bets":[0.388,0.400,0.450,0.373,0.344,0.370,0.411,0.382]},
 cloud:[["Revenue","$12.3B","$13.6B","$20.0B","$24.8B"],["Op. income","$2.2B","$2.8B","$6.6B","$8.8B"],["Op. margin","17.8%","20.7%","32.9%","35.6%"]],
-analysts:[["BNP Paribas","Outperform","$420 → $450","23 Oct"],["Citizens JMP","Buy","$515 → $450","22 Oct"],["RBC Capital","Buy","$425","21 Oct"],["BMO Capital","Buy","$465 → $480","20 Oct"],["Bank of America","Buy","$430","20 Oct"],["KeyBanc","Overweight","$435 → $410","19 Oct"],["UBS","Neutral","$379 → $380","14 Oct"]],
+analysts:[["Evercore ISI","Buy","$450 (maintained)","26 Oct"],["BNP Paribas","Outperform","$420 → $450","23 Oct"],["Citizens JMP","Buy","$515 → $450","22 Oct"],["RBC Capital","Buy","$425","21 Oct"],["BMO Capital","Buy","$465 → $480","20 Oct"],["Bank of America","Buy","$430","20 Oct"],["KeyBanc","Overweight","$435 → $410","19 Oct"],["UBS","Neutral","$379 → $380","14 Oct"]],
 tpu:[
  ["TPU v5e / v5p","2023","5th gen. v5p was the 2023 training workhorse; v5e the cost-efficient variant.","Generally available","Google Cloud TPU page","https://cloud.google.com/tpu"],
  ["Trillium (v6e)","2024","6th gen: 4.7x peak compute per chip vs v5e, 67% more energy-efficient.","Generally available","Google Cloud TPU page","https://cloud.google.com/tpu"],
@@ -24,10 +24,15 @@ compute:[
  ["Nvidia GPUs in Google Cloud","A5X bare-metal instances on NVIDIA Vera Rubin NVL72 generally available; Google Cloud says it plans to scale to up to 960,000 Rubin GPUs. Alphabet does not disclose how many Nvidia GPUs it buys.","NVIDIA blog / Google Cloud Next '26 blog","https://blogs.nvidia.com/blog/google-cloud-vera-rubin-infrastructure/"],
  ["Cloud backlog","$514bn at 30 Jun 2026; just over half expected to convert within 24 months.","Alphabet Q2 2026 10-Q","https://www.sec.gov/Archives/edgar/data/1652044/000165204426000071/goog-20260630.htm"]],
 deals:[
+ ["26 Oct 2026","Anthropic (S-1)","Anthropic committed to spend at least ~$114.5bn with Google between Apr 2026 and Jul 2033 (non-cancelable; true-up if short). Separate agreements for more TPU capacity delivered 2028–2031, est. $125–150bn (not only Google). Google 2026 note facility $20bn (undrawn at 30 Jun); option to buy up to $10bn of Anthropic Class N stock at the IPO price; ownership cap 14.99% unless Google waives.","Confirmed (Anthropic S-1, SEC)","Anthropic S-1, 26 Oct 2026","https://www.sec.gov/Archives/edgar/data/2130357/000162828026067168/anthropicpbc-sx1.htm"],
  ["Oct 2025","Anthropic","Up to 1 million TPUs, over 1 GW of capacity coming online in 2026.","Confirmed (Anthropic)","Anthropic","https://www.anthropic.com/news/google-broadcom-partnership-compute"],
  ["6 Apr 2026","Anthropic + Broadcom","Multiple GW of next-generation TPU capacity from 2027; Broadcom's filing puts it at about 3.5 GW. Broadcom also to design/supply future Google TPUs through 2031.","Confirmed (Anthropic release; Broadcom SEC filing)","Anthropic / Tom's Hardware","https://www.tomshardware.com/tech-industry/broadcom-expands-anthropic-deal-to-3-5gw-of-google-tpu-capacity-from-2027"],
  ["Nov 2025","Meta","In talks to spend billions on Google TPUs.","Reported, not confirmed (The Information via Reuters)","Reuters","https://www.reuters.com/business/meta-talks-spend-billions-googles-chips-information-reports-2025-11-25/"]],
 roll:[
+ ["26 Oct 2026","Cloud / Anthropic","Anthropic S-1: at least ~$114.5bn committed spend with Google (Apr 2026–Jul 2033); cloud-marketplace resale (Google, Amazon, Microsoft) was 48% of Anthropic H1 2026 revenue (Bloomberg).","https://www.sec.gov/Archives/edgar/data/2130357/000162828026067168/anthropicpbc-sx1.htm","Anthropic S-1 (SEC)"],
+ ["26 Oct 2026","Waymo","Madrid: Spain's DGT AV registry (updated 20 Oct) lists 16 Waymo vehicles; supervised testing in Madrid, Alcobendas and Getafe in coming weeks; rides expected 2027.","https://madridnoticias.com/en/technology/waymo-to-bring-its-robotaxis-to-madrid-alcobendas-and-getafe-with-a-driver","Madrid Noticias"],
+ ["26 Oct 2026","Gemini API","New paid-tier Generate Content API projects store requests by default (store=true); existing projects unchanged.","https://ai.google.dev/gemini-api/docs/changelog","Gemini API release notes"],
+ ["22 Oct 2026","Compute / energy","Voltus deal expanded 10x to a 1 GW Google-funded virtual power plant on the PJM grid.","https://blog.google/innovation-and-ai/infrastructure-and-cloud/global-network/virtual-power-plant-1-gigawatt/","Google blog"],
  ["18 Nov 2025","Gemini","Gemini 3 launched; Gemini 3 Flash preview 17 Dec 2025.","https://ai.google.dev/gemini-api/docs/changelog","Gemini API release notes"],
  ["19 Feb 2026","Gemini","Gemini 3.1 Pro Preview released.","https://ai.google.dev/gemini-api/docs/changelog","Gemini API release notes"],
  ["26 Feb 2026","Gemini","Nano Banana 2 (Gemini 3.1 Flash Image) preview.","https://ai.google.dev/gemini-api/docs/changelog","Gemini API release notes"],
