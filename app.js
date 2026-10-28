@@ -63,7 +63,7 @@ S.financials=()=>{const F=SEC.fs,C=F.cols,isE=l=>/EPS/.test(l),rows=F[FS],A=SEC.
 S.segments=()=>{const ks=Object.keys(D.SEG);return `<h1>${T('Segments')}</h1><p class="sub">${'Revenue by line, US$bn, Q3 2024–Q2 2026.'}</p>
  ${card(T('Segment revenue history'),'<div class="cw" style="height:360px"><canvas id="s1"></canvas></div>',SRCL('Alphabet 10-Q/10-K segment note; stockanalysis.com quarterly',D.sources[4][1]))}
  <div class="grid3">${ks.map((k,i)=>`<div class="card"><h2>${k}</h2><div class="cw" style="height:180px"><canvas id="sg${i}"></canvas></div><p class="src">Q2'26 $${D.SEG[k][7].toFixed(2)}bn · YoY ${((D.SEG[k][7]/D.SEG[k][3]-1)*100).toFixed(0)}%</p></div>`).join('')}</div>
- ${card('Google Cloud',tbl(['',"Q1'25","Q2'25","Q1'26","Q2'26"],D.cloud)+`<p>${'Backlog $514bn at 30 Jun 2026; Q2 included first TPU-system sales. Google Services op. income $39.5bn (41.8% margin); Other Bets −$1.8bn.'}</p>`,SRCL('Q2 2026 call',D.q2call))}`};
+ ${card('Google Cloud',tbl(['',"Q2'25","Q3'25","Q2'26","Q3'26"],D.cloud)+`<p>${'Q3 2026: Cloud +103%; TPU system sales a meaningful contributor. Google Services op. income $39.2bn (40.7% margin); Other Bets −$2.0bn. Backlog last reported $514bn (30 Jun 2026); Q3 figure n/a in release.'}</p>`,SRCL('Q3 2026 release','https://www.sec.gov/Archives/edgar/data/1652044/000165204426000080/googexhibit991q32026.htm'))}`};
 S.compute=()=>{const H=SEC.qhist;return `<h1>${T('TPU & compute')}</h1>
  ${card(T('Capex & infrastructure'),tbl(['Item','Detail',T('Source')],D.compute.map(r=>[`<b>${r[0]}</b>`,r[1],lk(r[2],r[3])])))}
  <div class="two">${card('Quarterly capex vs OCF (16 quarters, SEC XBRL)','<div class="cw"><canvas id="c1"></canvas></div>',SRCL('SEC XBRL',XBRL))}
@@ -72,7 +72,7 @@ S.compute=()=>{const H=SEC.qhist;return `<h1>${T('TPU & compute')}</h1>
  ${card(T('External TPU deals'),tbl([T('Date'),T('Customer'),T('Deal'),T('Status'),T('Source')],D.deals.map(r=>[r[0],`<b>${r[1]}</b>`,r[2],`<span class="est ${/not confirmed/.test(r[3])?'e':''}">${r[3]}</span>`,lk(r[4],r[5])])),'<p class="src">'+'Nvidia GPU purchase volumes are not disclosed by Alphabet (n/a).'+'</p>')}`};
 S.ai=()=>`<h1>${T('AI & Gemini rollout')}</h1><p class="sub">${'Newest first; each item links to its source.'}</p>
  ${card('',tbl([T('Date'),T('Area'),T('Launch'),T('Source')],D.roll.slice().sort((a,b)=>pdate(b[0])-pdate(a[0])).map(r=>[`<b style="white-space:nowrap">${r[0]}</b>`,r[1],r[2],lk(r[4],r[3])])))}
- ${card('Usage KPIs (Q2 2026 call)',tbl(['KPI','Value'],[['Gemini app MAU','950M'],['Model API tokens / min','~22B (16B in Q1)'],['AI Mode MAU','>1B'],['Developers building monthly','>9M'],['Fortune 100 using Gemini Enterprise','~90%'],['Gemma downloads','>900M (Gemma 4: >300M)']]),SRCL('Alphabet Q2 2026 call, 22 Jul 2026',D.q2call))}`;
+ ${card('Usage KPIs (Q3 2026 release; others Q2 call)',tbl(['KPI','Value'],[['Gemini app users','1B (Q3 2026; 950M MAU in Q2)'],['Model API tokens / min','~32B (Q3 2026; ~22B in Q2)'],['AI Mode MAU','>1B'],['Developers building monthly','>9M'],['Fortune 100 using Gemini Enterprise','~90%'],['Gemma downloads','>900M (Gemma 4: >300M)']]),SRCL('Alphabet Q2 2026 call, 22 Jul 2026',D.q2call))}`;
 S.waymo=()=>{const w=D.waymo;return `<h1>${T('Waymo & Other Bets')}</h1>
  <div class="h4">${w.kpi.slice(0,4).map(k=>hc(k[0],k[1],lk(k[2],k[3]))).join('')}</div>
  <div class="two">${card('Paid rides per week (thousands, company-announced)','<div class="cw" style="height:220px"><canvas id="w1"></canvas></div>',SRCL('Waymo announcements via robotaxistats',w.ridesSrc))}
