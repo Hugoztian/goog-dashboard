@@ -41,6 +41,7 @@ S.overview=()=>{const fcf=SEC.fs.cf.find(r=>r[0]==='Free cash flow').slice(1),tf
  <div class="h2row"><div class="mini"><div class="l">${T('52-week range')}</div><div class="v">$${D.close.lo}–$${D.close.hi}</div></div>
  <div class="mini"><div class="l">${'TTM free cash flow'}</div><div class="v">${b1(tf/1e9)}</div><div class="s">${lk('SEC XBRL',XBRL)}</div></div>
  <div class="mini"><div class="l">${'FY2026 capex guide'}</div><div class="v">$195–205bn</div><div class="s">${lk('Q3 call','https://stockanalysis.com/stocks/googl/transcripts/712854-q3-2026/')}</div></div>
+ <div class="mini"><div class="l">FY2027 capex</div><div class="v">↑ significantly</div><div class="s">mgmt; $ n/a until Q4 call</div></div>
  <div class="mini"><div class="l">${'Next earnings'}</div><div class="v">n/a</div><div class="s">Q4 2026 date not yet announced (checked 29 Oct 2026); Q3 reported 28 Oct</div></div></div>
  <div class="card callout"><b>${T('Trailing P/E caveat')}.</b> ${'Q1 and Q2 2026 net income include $37.7bn and $98.0bn of other income, mostly unrealized gains on equity stakes. Use forward P/E or operating income.'} ${lk('Q2 2026 call',D.q2call)}</div>
  ${card(T('What changed this week'),`<ul class="week">${D.week.map(w=>`<li><span class="d">${w[0]}</span>${lk(w[1],w[2])}</li>`).join('')}</ul>`)}
@@ -65,6 +66,7 @@ S.segments=()=>{const ks=Object.keys(D.SEG);return `<h1>${T('Segments')}</h1><p 
  <div class="grid3">${ks.map((k,i)=>`<div class="card"><h2>${k}</h2><div class="cw" style="height:180px"><canvas id="sg${i}"></canvas></div><p class="src">Q2'26 $${D.SEG[k][7].toFixed(2)}bn · YoY ${((D.SEG[k][7]/D.SEG[k][3]-1)*100).toFixed(0)}%</p></div>`).join('')}</div>
  ${card('Google Cloud',tbl(['',"Q2'25","Q3'25","Q2'26","Q3'26"],D.cloud)+`<p>${'Q3 2026: Cloud +103%; TPU system sales a meaningful contributor. Google Services op. income $39.2bn (40.7% margin); Other Bets −$2.0bn. Backlog last reported $514bn (30 Jun 2026); Q3 figure n/a in release.'}</p>`,SRCL('Q3 2026 release','https://www.sec.gov/Archives/edgar/data/1652044/000165204426000080/googexhibit991q32026.htm'))}`};
 S.compute=()=>{const H=SEC.qhist;return `<h1>${T('TPU & compute')}</h1>
+ ${card('Multi-year capex plan (newest first)',tbl(['Year','Plan / guidance','Status',T('Source')],D.capexplan.map(r=>[`<b>${r[0]}</b>`,r[1],r[2],lk(r[3],r[4])])),SRCL('Management figures preferred; media/Street rows labelled',D.capexplan[0][4]))}
  ${card(T('Capex & infrastructure'),tbl(['Item','Detail',T('Source')],D.compute.map(r=>[`<b>${r[0]}</b>`,r[1],lk(r[2],r[3])])))}
  <div class="two">${card('Quarterly capex vs OCF (16 quarters, SEC XBRL)','<div class="cw"><canvas id="c1"></canvas></div>',SRCL('SEC XBRL',XBRL))}
  ${card(T('Capex guidance history'),'<div class="cw" style="height:200px"><canvas id="c2"></canvas></div>'+tbl([T('Date'),T('Event'),'US$bn'],D.guide.map(g=>[g[0],lk(g[1],g[4]),g[2]+'–'+g[3]])))}</div>
@@ -79,7 +81,7 @@ S.waymo=()=>{const w=D.waymo;return `<h1>${T('Waymo & Other Bets')}</h1>
  ${card('Funding & Other Bets',tbl(['',''],w.kpi.slice(4).map(k=>[k[0],k[1]+' · '+lk(k[2],k[3])])))}</div>
  ${card(T('Cities')+` (${w.cities.length})`,tbl(['City',T('Status'),'Access'],w.cities.map(c=>[`<b>${c[0]}</b>`,c[1],c[2]])),SRCL('Waymo Help announcements; Waymo FAQ (22 Oct 2026)',w.citySrc))}`};
 S.calls=()=>`<h1>${T('Earnings calls')}</h1><p class="sub">${'Latest: Q3 2026 on 28 Oct (US). Next: Q4 2026 results, date n/a (not yet announced, checked 29 Oct 2026).'}</p>
- ${card(T('Guidance vs actuals'),tbl(['Guided on','FY2026 capex guide','Actual to date'],[['28 Oct 2026','$195–205bn (unchanged)','9M $132.0bn → Q4 implied ~$63–73bn'],['22 Jul 2026','$195–205bn','H1 $80.6bn → H2 implied ~$115–125bn'],['29 Apr 2026','$180–190bn','Q1 $35.7bn'],['4 Feb 2026','$175–185bn','FY2025 actual $91.4bn']]),SRCL('Alphabet earnings calls; SEC XBRL',D.q2call))}
+ ${card(T('Guidance vs actuals'),tbl(['Guided on','FY2026 capex guide','Actual to date'],[['28 Oct 2026','$195–205bn (reaffirmed)','9M $132.0bn → Q4 implied ~$63–73bn'],['22 Jul 2026','$195–205bn','H1 $80.6bn → H2 implied ~$115–125bn'],['29 Apr 2026','$180–190bn','Q1 $35.7bn'],['4 Feb 2026','$175–185bn','FY2025 actual $91.4bn']]),SRCL('Alphabet earnings calls; SEC XBRL',D.q2call))}
  ${D.calls.map(c=>card(`${c.q} · ${c.date}`,`<div class="two"><div><h3>${'Actuals'}</h3>${tbl(['',''],c.actual)}</div><div><h3>${T('Management guidance')}</h3><ul class="lst">${c.guide.map(x=>`<li>${x}</li>`).join('')}</ul><h3>${T('Call notes')}</h3><ul class="lst">${c.notes.map(x=>`<li>${x}</li>`).join('')}</ul></div></div>`,SRCL(c.q+' transcript',c.url))).join('')}
  <p class="src">${'Q&A-by-analyst highlights: n/a (to be added from the Q3 transcript).'}</p>`;
 S.estimates=()=>{const r=D.ratings;return `<h1>${T('Wall Street estimates')}</h1>

@@ -1,5 +1,5 @@
 window.GOOG_DATA={
-asof:"Prices: 28 Oct 2026 US close (29 Oct 04:00 SGT; GOOGL $324.89, +1.34% vs $320.58 on 27 Oct; GOOG $321.89, +1.60%). After-hours close after Q3 results (7:59pm ET): GOOGL $292.79, −9.88%; GOOG $291.20, −9.53% (Nasdaq.com quote API, checked 29 Oct ~08:40 SGT). 52-week range: CNBC/Nasdaq, 27 Oct 2026. Financials: through Q3 2026 (reported 28 Oct 2026 US, 8-K Ex. 99.1). 2026 capex guide unchanged at $195–205bn on the Q3 call; 2027 capex to increase significantly (details on the Q4 call).",
+asof:"CapEx tracking updated 29 Oct (FY2026 guide reaffirmed 28 Oct; FY2027 step-up, mgmt). Prices: 28 Oct 2026 US close (29 Oct 04:00 SGT; GOOGL $324.89, +1.34% vs $320.58 on 27 Oct; GOOG $321.89, +1.60%). After-hours close after Q3 results (7:59pm ET): GOOGL $292.79, −9.88%; GOOG $291.20, −9.53% (Nasdaq.com quote API, checked 29 Oct ~08:40 SGT). 52-week range: CNBC/Nasdaq, 27 Oct 2026. Financials: through Q3 2026 (reported 28 Oct 2026 US, 8-K Ex. 99.1). 2026 capex guide unchanged at $195–205bn on the Q3 call; 2027 capex to increase significantly (details on the Q4 call).",
 
 close:{px:324.89,chg:1.34,date:"28 Oct 2026",lo:264.28,hi:408.61,goog:321.89,googChg:1.60,src:"https://www.nasdaq.com/market-activity/stocks/googl"},
 Q:["Q4'24","Q1'25","Q2'25","Q3'25","Q4'25","Q1'26","Q2'26","Q3'26"],
