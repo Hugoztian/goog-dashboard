@@ -40,8 +40,8 @@ S.overview=()=>{const fcf=SEC.fs.cf.find(r=>r[0]==='Free cash flow').slice(1),tf
  ${hc(T('Consensus'),'Strong Buy',`${T('Mean target')} <b>${r.mean?'$'+r.mean.toFixed(2):'n/a'}</b> · ${r.sb}/${r.b}/${r.h}/${r.s} (${n}) · ${lk('S&P Global via stockanalysis, '+r.asof,r.src)}`)}</div>
  <div class="h2row"><div class="mini"><div class="l">${T('52-week range')}</div><div class="v">$${D.close.lo}–$${D.close.hi}</div></div>
  <div class="mini"><div class="l">${'TTM free cash flow'}</div><div class="v">${b1(tf/1e9)}</div><div class="s">${lk('SEC XBRL',XBRL)}</div></div>
- <div class="mini"><div class="l">${'FY2026 capex guide'}</div><div class="v">$195–205bn</div><div class="s">${lk('Q2 call',D.q2call)}</div></div>
- <div class="mini"><div class="l">${'Next earnings'}</div><div class="v">28 Oct (US)</div><div class="s">≈ 29 Oct 04:00–05:00 SGT</div></div></div>
+ <div class="mini"><div class="l">${'FY2026 capex guide'}</div><div class="v">$195–205bn</div><div class="s">${lk('Q3 call','https://stockanalysis.com/stocks/googl/transcripts/712854-q3-2026/')}</div></div>
+ <div class="mini"><div class="l">${'Next earnings'}</div><div class="v">n/a</div><div class="s">Q4 2026 date not yet announced (checked 29 Oct 2026); Q3 reported 28 Oct</div></div></div>
  <div class="card callout"><b>${T('Trailing P/E caveat')}.</b> ${'Q1 and Q2 2026 net income include $37.7bn and $98.0bn of other income, mostly unrealized gains on equity stakes. Use forward P/E or operating income.'} ${lk('Q2 2026 call',D.q2call)}</div>
  ${card(T('What changed this week'),`<ul class="week">${D.week.map(w=>`<li><span class="d">${w[0]}</span>${lk(w[1],w[2])}</li>`).join('')}</ul>`)}
  ${card(`GOOGL ${'chart'} <span class="src">NASDAQ:GOOGL · TradingView</span>`,'<div class="tvchart" id="tv"></div>',SRCL('TradingView NASDAQ:GOOGL','https://www.tradingview.com/symbols/NASDAQ-GOOGL/'))}`};
@@ -78,8 +78,8 @@ S.waymo=()=>{const w=D.waymo;return `<h1>${T('Waymo & Other Bets')}</h1>
  <div class="two">${card('Paid rides per week (thousands, company-announced)','<div class="cw" style="height:220px"><canvas id="w1"></canvas></div>',SRCL('Waymo announcements via robotaxistats',w.ridesSrc))}
  ${card('Funding & Other Bets',tbl(['',''],w.kpi.slice(4).map(k=>[k[0],k[1]+' · '+lk(k[2],k[3])])))}</div>
  ${card(T('Cities')+` (${w.cities.length})`,tbl(['City',T('Status'),'Access'],w.cities.map(c=>[`<b>${c[0]}</b>`,c[1],c[2]])),SRCL('Waymo Help announcements; Waymo FAQ (22 Oct 2026)',w.citySrc))}`};
-S.calls=()=>`<h1>${T('Earnings calls')}</h1><p class="sub">${'Next: Q3 2026 on 28 Oct (US), ≈29 Oct 04:00–05:00 SGT.'}</p>
- ${card(T('Guidance vs actuals'),tbl(['Guided on','FY2026 capex guide','Actual to date'],[['4 Feb 2026','$175–185bn','FY2025 actual $91.4bn'],['29 Apr 2026','$180–190bn','Q1 $35.7bn'],['22 Jul 2026','$195–205bn','H1 $80.6bn → H2 implied ~$115–125bn']]),SRCL('Alphabet earnings calls; SEC XBRL',D.q2call))}
+S.calls=()=>`<h1>${T('Earnings calls')}</h1><p class="sub">${'Latest: Q3 2026 on 28 Oct (US). Next: Q4 2026 results, date n/a (not yet announced, checked 29 Oct 2026).'}</p>
+ ${card(T('Guidance vs actuals'),tbl(['Guided on','FY2026 capex guide','Actual to date'],[['28 Oct 2026','$195–205bn (unchanged)','9M $132.0bn → Q4 implied ~$63–73bn'],['22 Jul 2026','$195–205bn','H1 $80.6bn → H2 implied ~$115–125bn'],['29 Apr 2026','$180–190bn','Q1 $35.7bn'],['4 Feb 2026','$175–185bn','FY2025 actual $91.4bn']]),SRCL('Alphabet earnings calls; SEC XBRL',D.q2call))}
  ${D.calls.map(c=>card(`${c.q} · ${c.date}`,`<div class="two"><div><h3>${'Actuals'}</h3>${tbl(['',''],c.actual)}</div><div><h3>${T('Management guidance')}</h3><ul class="lst">${c.guide.map(x=>`<li>${x}</li>`).join('')}</ul><h3>${T('Call notes')}</h3><ul class="lst">${c.notes.map(x=>`<li>${x}</li>`).join('')}</ul></div></div>`,SRCL(c.q+' transcript',c.url))).join('')}
  <p class="src">${'Q&A-by-analyst highlights: n/a (to be added from the Q3 transcript).'}</p>`;
 S.estimates=()=>{const r=D.ratings;return `<h1>${T('Wall Street estimates')}</h1>
