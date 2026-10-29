@@ -7,16 +7,16 @@ const SRCL=(s,u)=>`<p class="src">${T('Source')}: ${lk(s,u)}</p>`,XBRL='https://
 const TABS=[['overview','Overview'],['financials','Financials'],['segments','Segments'],['compute','TPU & compute'],['ai','AI & Gemini rollout'],['waymo','Waymo & Other Bets'],['calls','Earnings calls'],['estimates','Wall Street estimates'],['insiders','Insiders'],['filings','SEC filings'],['legal','Regulatory & antitrust'],['people','Key people'],['video','YouTube / video'],['holders','13F holders'],['catalysts','Catalysts'],['sources','Sources & news'],['position','My position']];
 let charts=[],FS='is';
 /* ---------- live quote: own worker (planned) -> Micron worker (temporary) -> CNBC -> build-time close ---------- */
-const QSRC=[['GOOG worker',(/\.workers\.dev$/.test(location.hostname)?'/api/quote':'https://goog-dashboard.cashcache.workers.dev/api/quote')+'?symbol=GOOGL'],['Micron quote worker (temporary fallback)','https://micron-dashboard.cashcache.workers.dev/api/quote?symbol=GOOGL']];
-const CNBC='https://quote.cnbc.com/quote-html-webservice/restQuote/symbolType/symbol?symbols=GOOGL&requestMethod=itv&noform=1&partnerId=2&fund=1&exthrs=1&output=json&events=1';
+const QSRC=[['GOOG worker',(/\.workers\.dev$/.test(location.hostname)?'/api/quote':'https://goog-dashboard.cashcache.workers.dev/api/quote')+'?symbol=GOOG'],['Micron quote worker (temporary fallback)','https://micron-dashboard.cashcache.workers.dev/api/quote?symbol=GOOG']];
+const CNBC='https://quote.cnbc.com/quote-html-webservice/restQuote/symbolType/symbol?symbols=GOOG&requestMethod=itv&noform=1&partnerId=2&fund=1&exthrs=1&output=json&events=1';
 const W={d:null,src:null,at:0,err:null},C={d:null,at:0};
 const sgt=ms=>new Date(ms).toLocaleString('en-GB',{timeZone:'Asia/Singapore',day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});
 const livePx=()=>W.d?W.d.main.price:C.d?parseFloat(C.d.last):D.close.px;
 function quoteHTML(){
  if(W.d){const w=W.d,m=w.main,c=+m.change,cls=c>=0?'pos':'neg',sg=c>=0?'+':'',rg=w.regular||{},pc=w.prev_close||{};
   return `<div class="lq"><span class="px">$${m.price.toFixed(2)}</span><span class="ch ${cls}">${sg}${c.toFixed(2)} (${sg}${(+m.pct).toFixed(2)}%)</span><span class="badge">${m.label}</span><span class="src">${T('Regular close')} $${rg.price!=null?rg.price.toFixed(2):'—'}${pc.price!=null?` · ${T('prev close')} $${pc.price.toFixed(2)} (${pc.date})`:''}</span></div>
-  <p class="src">${T('Updated')} ${sgt(W.at)} SGT · ${'quote time'} ${m.time_et} · ${T('Source')}: ${lk('Robinhood','https://robinhood.com/stocks/GOOGL')} via ${lk(W.src[0],W.src[1])} (${w.source_note}) · ${T('refreshes every 15 s')}</p>`}
- if(C.d){const q=C.d,c=parseFloat(q.change);return `<div class="lq"><span class="px">$${q.last}</span><span class="ch ${c>=0?'pos':'neg'}">${q.change} (${q.change_pct})</span></div><p class="src">${T('Updated')} ${sgt(C.at)} SGT · ${T('Source')}: ${lk('CNBC quote feed','https://www.cnbc.com/quotes/GOOGL')} · ${T('refreshes every 15 s')}</p>`}
+  <p class="src">${T('Updated')} ${sgt(W.at)} SGT · ${'quote time'} ${m.time_et} · ${T('Source')}: ${lk('Robinhood','https://robinhood.com/stocks/GOOG')} via ${lk(W.src[0],W.src[1])} (${w.source_note}) · ${T('refreshes every 15 s')}</p>`}
+ if(C.d){const q=C.d,c=parseFloat(q.change);return `<div class="lq"><span class="px">$${q.last}</span><span class="ch ${c>=0?'pos':'neg'}">${q.change} (${q.change_pct})</span></div><p class="src">${T('Updated')} ${sgt(C.at)} SGT · ${T('Source')}: ${lk('CNBC quote feed','https://www.cnbc.com/quotes/GOOG')} · ${T('refreshes every 15 s')}</p>`}
  return `<div class="lq"><span class="px">$${D.close.px.toFixed(2)}</span><span class="src">${'Close'} ${D.close.date}</span></div><p class="src">${'Loading live quote…'}</p>`}
 async function pollQuote(){let ok=false;
  for(const s of QSRC){try{const ctl=new AbortController(),to=setTimeout(()=>ctl.abort(),7000);const r=await fetch(s[1]+'&t='+Date.now(),{cache:'no-store',signal:ctl.signal});clearTimeout(to);const j=await r.json();if(!j||!j.ok||!j.main||!j.main.price)throw 0;W.d=j;W.src=s;W.at=Date.now();ok=true;break}catch(e){}}
@@ -32,7 +32,7 @@ const pdate=s=>{const t=Date.parse(s.replace(/\(.*\)/,''));return isNaN(t)?0:t};
 /* ---------- sections ---------- */
 const S={};
 S.overview=()=>{const fcf=SEC.fs.cf.find(r=>r[0]==='Free cash flow').slice(1),tf=ttm(fcf),r=D.ratings,n=r.sb+r.b+r.h+r.s;
- return `<div class="hero"><h1>Alphabet <span class="tk">GOOGL</span></h1></div>
+ return `<div class="hero"><h1>Alphabet <span class="tk">GOOG</span></h1></div>
  ${card(`<span class="livedot"></span> ${T('Live price')}`,`<div id="lq">${quoteHTML()}</div>`)}
  <div class="h4">${hc(T('Market cap'),mcapTxt(),`${'Scaled from'} $3.92T @ $320.21 · ${lk('stockanalysis.com, 24 Oct 2026',D.val.src)}`,'mcap')}
  ${hc(T('Forward P/E'),'23.9x',`${'Trailing'} 16.1x ${'(inflated by equity gains)'} · ${lk('stockanalysis.com',D.val.src)}`)}
@@ -45,7 +45,7 @@ S.overview=()=>{const fcf=SEC.fs.cf.find(r=>r[0]==='Free cash flow').slice(1),tf
  <div class="mini"><div class="l">${'Next earnings'}</div><div class="v">n/a</div><div class="s">Q4 2026 date not yet announced (checked 29 Oct 2026); Q3 reported 28 Oct</div></div></div>
  <div class="card callout"><b>${T('Trailing P/E caveat')}.</b> ${'Q1 and Q2 2026 net income include $37.7bn and $98.0bn of other income, mostly unrealized gains on equity stakes. Use forward P/E or operating income.'} ${lk('Q2 2026 call',D.q2call)}</div>
  ${card(T('What changed this week'),`<ul class="week">${D.week.map(w=>`<li><span class="d">${w[0]}</span>${lk(w[1],w[2])}</li>`).join('')}</ul>`)}
- ${card(`GOOGL ${'chart'} <span class="src">NASDAQ:GOOGL · TradingView</span>`,'<div class="tvchart" id="tv"></div>',SRCL('TradingView NASDAQ:GOOGL','https://www.tradingview.com/symbols/NASDAQ-GOOGL/'))}`};
+ ${card(`GOOG ${'chart'} <span class="src">NASDAQ:GOOG · TradingView</span>`,'<div class="tvchart" id="tv"></div>',SRCL('TradingView NASDAQ:GOOG','https://www.tradingview.com/symbols/NASDAQ-GOOG/'))}`};
 S.financials=()=>{const F=SEC.fs,C=F.cols,isE=l=>/EPS/.test(l),rows=F[FS],A=SEC.annual;
  const fmt=(l,v)=>v==null?na():isE(l)?'$'+v.toFixed(2):bn(v);
  return `<h1>${T('Financials')}</h1><p class="sub">${'SEC EDGAR XBRL companyfacts (CIK 1652044); each column links to its 10-Q/10-K. Built'} ${SEC.built}.</p>
@@ -122,7 +122,7 @@ function render(){const tab=(location.hash||'#overview').slice(1),t=S[tab]?tab:'
  const r=D.ratings;mk('e1',{type:'bar',data:{labels:['Strong Buy','Buy','Hold','Sell'],datasets:[{label:'Analysts',data:[r.sb,r.b,r.h,r.s],backgroundColor:[G[3],G[0],G[2],G[1]]}]}});
  if(document.getElementById('i1')){const s=SEC.ins.filter(x=>x.code==='S'),names=[...new Set(s.map(x=>x.name))],sum=(n,p)=>s.filter(x=>x.name===n&&x.plan===p).reduce((a,x)=>a+x.shares,0);
   mk('i1',{type:'bar',data:{labels:names,datasets:[{label:T('Plan (10b5-1)'),data:names.map(n=>sum(n,true)),backgroundColor:G[0]},{label:T('Non-plan'),data:names.map(n=>sum(n,false)),backgroundColor:G[1]}]},options:{indexAxis:'y',scales:{x:{stacked:true},y:{stacked:true}}}})}
- const tv=document.getElementById('tv');if(tv){const s=document.createElement('script');s.src='https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js';s.async=true;s.text=JSON.stringify({symbol:'NASDAQ:GOOGL',interval:'D',timezone:'Asia/Singapore',theme:isDark()?'dark':'light',locale:'en',autosize:true,hide_side_toolbar:true});tv.appendChild(s)}}
+ const tv=document.getElementById('tv');if(tv){const s=document.createElement('script');s.src='https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js';s.async=true;s.text=JSON.stringify({symbol:'NASDAQ:GOOG',interval:'D',timezone:'Asia/Singapore',theme:isDark()?'dark':'light',locale:'en',autosize:true,hide_side_toolbar:true});tv.appendChild(s)}}
 const isDark=()=>{const t=document.documentElement.dataset.theme;return t?t==='dark':matchMedia('(prefers-color-scheme: dark)').matches};
 function applyTheme(){const t=document.documentElement.dataset.theme||'auto';themelbl.textContent=t==='auto'?'Auto':t==='dark'?'Dark':'Light';themeic.textContent=t==='auto'?'◐':t==='dark'?'☾':'☀';Chart.defaults.color=isDark()?'#a1a1a6':'#6e6e73';Chart.defaults.borderColor=isDark()?'rgba(255,255,255,.1)':'rgba(0,0,0,.08)'}
 themebtn.onclick=()=>{const h=document.documentElement,c=h.dataset.theme||'auto',n=c==='auto'?(isDark()?'light':'dark'):c==='dark'?'light':'auto';if(n==='auto'){delete h.dataset.theme;try{localStorage.removeItem('goog-theme')}catch(e){}}else{h.dataset.theme=n;try{localStorage.setItem('goog-theme',n)}catch(e){}}applyTheme();render()};
