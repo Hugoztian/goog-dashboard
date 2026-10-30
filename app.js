@@ -34,15 +34,15 @@ const S={};
 S.overview=()=>{const fcf=SEC.fs.cf.find(r=>r[0]==='Free cash flow').slice(1),tf=ttm(fcf),r=D.ratings,n=r.sb+r.b+r.h+r.s;
  return `<div class="hero"><h1>Alphabet <span class="tk">GOOG</span></h1></div>
  ${card(`<span class="livedot"></span> ${T('Live price')}`,`<div id="lq">${quoteHTML()}</div>`)}
- <div class="h4">${hc(T('Market cap'),mcapTxt(),`${'Scaled from'} $3.92T @ $320.21 · ${lk('stockanalysis.com, 24 Oct 2026',D.val.src)}`,'mcap')}
- ${hc(T('Forward P/E'),'23.9x',`${'Trailing'} 16.1x ${'(inflated by equity gains)'} · ${lk('stockanalysis.com',D.val.src)}`)}
- ${hc(T('EV/EBITDA'),'21.9x',`EV $3.79T · ${lk('stockanalysis.com',D.val.src)}`)}
+ <div class="h4">${hc(T('Market cap'),mcapTxt(),`${'Scaled from'} $${(D.val.mcap/1e12).toFixed(2)}T @ $${D.val.px0.toFixed(2)} · ${lk(D.val.asof||'stockanalysis.com',D.val.src)}`,'mcap')}
+ ${hc(T('Forward P/E'),(D.val.fpe||'n/a')+'x',`${'Trailing'} ${D.val.pe||'n/a'}x ${'(inflated by equity gains)'} · ${lk(D.val.asof||'stockanalysis.com',D.val.src)}`)}
+ ${hc(T('EV/EBITDA'),(D.val.evebitda||'n/a')+'x',`EV $${(D.val.ev/1e12).toFixed(2)}T · ${lk(D.val.asof||'stockanalysis.com',D.val.src)}`)}
  ${hc(T('Consensus'),'Strong Buy',`${T('Mean target')} <b>${r.mean?'$'+r.mean.toFixed(2):'n/a'}</b> · ${r.sb}/${r.b}/${r.h}/${r.s} (${n}) · ${lk('S&P Global via stockanalysis, '+r.asof,r.src)}`)}</div>
  <div class="h2row"><div class="mini"><div class="l">${T('52-week range')}</div><div class="v">$${D.close.lo}–$${D.close.hi}</div></div>
  <div class="mini"><div class="l">${'TTM free cash flow'}</div><div class="v">${b1(tf/1e9)}</div><div class="s">${lk('SEC XBRL',XBRL)}</div></div>
  <div class="mini"><div class="l">${'FY2026 capex guide'}</div><div class="v">$195–205bn</div><div class="s">${lk('Q3 call','https://stockanalysis.com/stocks/googl/transcripts/712854-q3-2026/')}</div></div>
  <div class="mini"><div class="l">FY2027 capex</div><div class="v">↑ significantly</div><div class="s">mgmt; $ n/a until Q4 call</div></div>
- <div class="mini"><div class="l">${'Next earnings'}</div><div class="v">n/a</div><div class="s">Q4 2026 date not yet announced (checked 29 Oct 2026); Q3 reported 28 Oct</div></div></div>
+ <div class="mini"><div class="l">${'Next earnings'}</div><div class="v">n/a</div><div class="s">Q4 2026 date not yet announced (checked 30 Oct 2026); Q3 reported 28 Oct</div></div></div>
  <div class="card callout"><b>${T('Trailing P/E caveat')}.</b> ${'Q1 and Q2 2026 net income include $37.7bn and $98.0bn of other income, mostly unrealized gains on equity stakes. Use forward P/E or operating income.'} ${lk('Q2 2026 call',D.q2call)}</div>
  ${card(T('What changed this week'),`<ul class="week">${D.week.map(w=>`<li><span class="d">${w[0]}</span>${lk(w[1],w[2])}</li>`).join('')}</ul>`)}
  ${card(`GOOG ${'chart'} <span class="src">NASDAQ:GOOG · TradingView</span>`,'<div class="tvchart" id="tv"></div>',SRCL('TradingView NASDAQ:GOOG','https://www.tradingview.com/symbols/NASDAQ-GOOG/'))}`};
@@ -55,14 +55,14 @@ S.financials=()=>{const F=SEC.fs,C=F.cols,isE=l=>/EPS/.test(l),rows=F[FS],A=SEC.
  <div class="two">${card(T('Revenue')+' / '+T('Operating income'),'<div class="cw"><canvas id="f1"></canvas></div>')}${card(T('Operating cash flow')+' / '+T('Capex')+' / '+T('Free cash flow'),'<div class="cw"><canvas id="f2"></canvas></div>')}</div>
  ${card(T('10-year history')+' (FY2016–FY2025)','<div class="cw"><canvas id="f3"></canvas></div>'+tbl(['FY',...A.years],[[T('Revenue'),...A.rev.map(v=>bn(v))],[T('Operating income'),...A.opi.map(v=>bn(v))],[T('Operating cash flow'),...A.ocf.map(v=>bn(v))],[T('Capex'),...A.capex.map(v=>bn(v))],[T('Free cash flow'),...A.ocf.map((v,i)=>v!=null&&A.capex[i]!=null?bn(v-A.capex[i]):na())],['Buybacks',...A.bb.map(v=>bn(v))]]),SRCL('SEC 10-K XBRL',XBRL))}
  ${card(T('Valuation & payback'),tbl(['Metric','Value',T('Source')],[
-  ['P/FCF (TTM)','73.5x',lk('stockanalysis.com',D.val.src)],
+  ['P/FCF (TTM)',(D.val.pfcf||'n/a')+'x',lk(D.val.asof||'stockanalysis.com',D.val.src)],
   ['FCF yield (TTM FCF / mkt cap)',(ttm(SEC.fs.cf.find(r=>r[0]==='Free cash flow').slice(1))/D.val.mcap*100).toFixed(2)+'%',lk('SEC XBRL',XBRL)+' + '+lk('stockanalysis',D.val.src)],
   ['Payback at TTM FCF (years)',(D.val.mcap/ttm(SEC.fs.cf.find(r=>r[0]==='Free cash flow').slice(1))).toFixed(0),'Market cap ÷ TTM FCF; calculated'],
-  ['Net cash (30 Jun 2026)','$121.7bn ($242.5bn cash & securities − $120.8bn debt)',lk('Q2 10-Q',D.sources[0][1])],
+  [D.val.netLbl||'Net cash',D.val.netTxt||'n/a',lk(D.val.asof||'stockanalysis.com',D.val.src)],
   ['Dividend','$0.22/qtr · yield 0.27%',lk('stockanalysis.com',D.val.src)],
   ['Buybacks','None in Q1–Q2 2026 (paused)',lk('SEC XBRL',XBRL)]]))}`};
 S.segments=()=>{const ks=Object.keys(D.SEG);return `<h1>${T('Segments')}</h1><p class="sub">${'Revenue by line, US$bn, Q3 2024–Q2 2026.'}</p>
- ${card(T('Segment revenue history'),'<div class="cw" style="height:360px"><canvas id="s1"></canvas></div>',SRCL('Alphabet 10-Q/10-K segment note; stockanalysis.com quarterly',D.sources[4][1]))}
+ ${card(T('Segment revenue history'),'<div class="cw" style="height:360px"><canvas id="s1"></canvas></div>',SRCL('Alphabet 10-Q/10-K segment note; stockanalysis.com quarterly',(D.sources.find(s=>/quarterly/.test(s[0]))||D.sources[0])[1]))}
  <div class="grid3">${ks.map((k,i)=>`<div class="card"><h2>${k}</h2><div class="cw" style="height:180px"><canvas id="sg${i}"></canvas></div><p class="src">Q2'26 $${D.SEG[k][7].toFixed(2)}bn · YoY ${((D.SEG[k][7]/D.SEG[k][3]-1)*100).toFixed(0)}%</p></div>`).join('')}</div>
  ${card('Google Cloud',tbl(['',"Q2'25","Q3'25","Q2'26","Q3'26"],D.cloud)+`<p>${'Q3 2026: Cloud +103%; TPU system sales a meaningful contributor. Google Services op. income $39.2bn (40.7% margin); Other Bets −$2.0bn. Backlog last reported $514bn (30 Jun 2026); Q3 figure n/a in release.'}</p>`,SRCL('Q3 2026 release','https://www.sec.gov/Archives/edgar/data/1652044/000165204426000080/googexhibit991q32026.htm'))}`};
 S.compute=()=>{const H=SEC.qhist;return `<h1>${T('TPU & compute')}</h1>
