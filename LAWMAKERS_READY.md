@@ -3,3 +3,4 @@
 - Source: Quiver Quantitative (quiverquant.com/congresstrading/stock/GOOGL and /GOOG), checked 3 Nov 2026 SGT. The latest filing is dated 27 Oct 2026. The primary filings are at the House Clerk and Senate eFD.
 - Gaps: share counts and current holdings are n/a. STOCK Act reports give dollar ranges only.
 - Files: data.js (lawmakers), app.js (S.holders), preview_holders.png, preview_holders_dark.png
+- Tip (local publish, not pushed): `bcee0af981e4bbb2bab656c2f44a89810620d251`
