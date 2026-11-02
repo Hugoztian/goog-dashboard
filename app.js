@@ -29,6 +29,7 @@ const tbl=(head,rows)=>`<div class="tw"><table><tr>${head.map(h=>`<th>${h}</th>`
 const hc=(l,v,s,id)=>`<div class="hcard"><div class="l">${l}</div><div class="v"${id?` id="${id}"`:''}>${v}</div><div class="s src">${s}</div></div>`;
 const ttm=a=>a.slice(-4).reduce((x,y)=>x+y,0);
 const pdate=s=>{const t=Date.parse(s.replace(/\(.*\)/,''));return isNaN(t)?0:t};
+const WN=()=>D.whatsNewThisWeek||[];const fd=s=>{const d=new Date(s+'T00:00:00Z');return isNaN(d)?s:d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric',timeZone:'UTC'})};
 /* ---------- sections ---------- */
 const S={};
 S.overview=()=>{const fcf=SEC.fs.cf.find(r=>r[0]==='Free cash flow').slice(1),tf=ttm(fcf),r=D.ratings,n=r.sb+r.b+r.h+r.s;
@@ -38,13 +39,13 @@ S.overview=()=>{const fcf=SEC.fs.cf.find(r=>r[0]==='Free cash flow').slice(1),tf
  ${hc(T('Forward P/E'),(D.val.fpe||'n/a')+'x',`${'Trailing'} ${D.val.pe||'n/a'}x ${'(inflated by equity gains)'} · ${lk(D.val.asof||'stockanalysis.com',D.val.src)}`)}
  ${hc(T('EV/EBITDA'),(D.val.evebitda||'n/a')+'x',`EV $${(D.val.ev/1e12).toFixed(2)}T · ${lk(D.val.asof||'stockanalysis.com',D.val.src)}`)}
  ${hc(T('Consensus'),'Strong Buy',`${T('Mean target')} <b>${r.mean?'$'+r.mean.toFixed(2):'n/a'}</b> · ${r.sb}/${r.b}/${r.h}/${r.s} (${n}) · ${lk('S&P Global via stockanalysis, '+r.asof,r.src)}`)}</div>
+ ${card('What’s new this week',`<p class="asof">Latest item: ${WN()[0]?fd(WN()[0].date):'n/a'} · newest first · from daily scans (Mon–Sat)</p><ul class="week">${WN().map(w=>`<li><span class="d">${fd(w.date)}</span>${w.url?lk(w.headline,w.url):w.headline}${w.detail?` <span class="src">${w.detail}</span>`:''}</li>`).join('')}</ul>`)}
  <div class="h2row"><div class="mini"><div class="l">${T('52-week range')}</div><div class="v">$${D.close.lo}–$${D.close.hi}</div></div>
  <div class="mini"><div class="l">${'TTM free cash flow'}</div><div class="v">${b1(tf/1e9)}</div><div class="s">${lk('SEC XBRL',XBRL)}</div></div>
  <div class="mini"><div class="l">${'FY2026 capex guide'}</div><div class="v">$195–205bn</div><div class="s">${lk('Q3 call','https://stockanalysis.com/stocks/googl/transcripts/712854-q3-2026/')}</div></div>
  <div class="mini"><div class="l">FY2027 capex</div><div class="v">↑ significantly</div><div class="s">mgmt; $ n/a until Q4 call</div></div>
  <div class="mini"><div class="l">${'Next earnings'}</div><div class="v">n/a</div><div class="s">Q4 2026 date not yet announced (checked 30 Oct 2026); Q3 reported 28 Oct</div></div></div>
  <div class="card callout"><b>${T('Trailing P/E caveat')}.</b> ${'Q1 and Q2 2026 net income include $37.7bn and $98.0bn of other income, mostly unrealized gains on equity stakes. Use forward P/E or operating income.'} ${lk('Q2 2026 call',D.q2call)}</div>
- ${card(T('What changed this week'),`<ul class="week">${D.week.map(w=>`<li><span class="d">${w[0]}</span>${lk(w[1],w[2])}</li>`).join('')}</ul>`)}
  ${card(`GOOG ${'chart'} <span class="src">NASDAQ:GOOG · TradingView</span>`,'<div class="tvchart" id="tv"></div>',SRCL('TradingView NASDAQ:GOOG','https://www.tradingview.com/symbols/NASDAQ-GOOG/'))}`};
 S.financials=()=>{const F=SEC.fs,C=F.cols,isE=l=>/EPS/.test(l),rows=F[FS],A=SEC.annual;
  const fmt=(l,v)=>v==null?na():isE(l)?'$'+v.toFixed(2):bn(v);
@@ -101,7 +102,7 @@ S.video=()=>`<h1>${T('YouTube / video')}</h1><p class="sub">${'Real videos found
  ${YT.length?YT.map(v=>card('',`<div class="vid"><a href="${v.url}" target="_blank" rel="noopener"><img src="https://i.ytimg.com/vi/${v.id}/mqdefault.jpg" alt=""></a><div><h2>${lk(v.title,v.url)}</h2><p class="src">${v.date} · ${v.channel} · ${v.dur||''}</p><p>${v.summary.replace(/</g,'&lt;')}</p><p class="src">${T('Summary')}: ${v.origin}</p></div></div>`)).join(''):card('',na())}`;
 S.holders=()=>`<h1>${T('13F holders')}</h1>${card('',`<p class="na">${'Not built yet: 8-quarter 13F holder table (CUSIP 02079K305 / 02079K107) is a remaining gap. Q3 2026 13Fs are due 14 Nov 2026.'}</p>`)}`;
 S.catalysts=()=>`<h1>${T('Catalysts')}</h1>${card('',tbl([T('Date'),T('Event'),T('Status'),T('Source')],D.cat.map(c=>[`<b>${c[0]}</b>${c[1]?`<div class="src">${c[1]}</div>`:''}`,c[2],c[3],lk(T('Source'),c[4])])))}`;
-S.sources=()=>`<h1>${T('Sources & news')}</h1>${card(T('What changed this week'),`<ul class="week">${D.week.map(w=>`<li><span class="d">${w[0]}</span>${lk(w[1],w[2])}</li>`).join('')}</ul>`)}
+S.sources=()=>`<h1>${T('Sources & news')}</h1>${card('What’s new this week',`<ul class="week">${WN().map(w=>`<li><span class="d">${fd(w.date)}</span>${w.url?lk(w.headline,w.url):w.headline}${w.detail?` <span class="src">${w.detail}</span>`:''}</li>`).join('')}</ul>`)}
  ${card(T('Source'),`<ul class="lst">${D.sources.map(s=>`<li>${lk(s[0],s[1])}</li>`).join('')}<li>${lk('SEC EDGAR XBRL companyfacts (CIK 1652044)',XBRL)}</li></ul>`)}`;
 S.position=()=>`<h1>${T('My position')}</h1>${card('',tbl(['',''],[[T('Shares'),T('Not yet provided')],['Cost basis',T('Not yet provided')],['Unrealised P/L',T('Not yet provided')]]))}`;
 /* ---------- render ---------- */
