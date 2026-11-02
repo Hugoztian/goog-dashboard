@@ -86,7 +86,7 @@ S.calls=()=>`<h1>${T('Earnings calls')}</h1><p class="sub">${'Latest: Q3 2026 on
  <p class="src">${'Q&A-by-analyst highlights: n/a (to be added from the Q3 transcript).'}</p>`;
 S.estimates=()=>{const r=D.ratings;return `<h1>${T('Wall Street estimates')}</h1>
  <div class="two">${card(T('Rating counts'),'<div class="cw" style="height:220px"><canvas id="e1"></canvas></div>',SRCL('S&P Global via stockanalysis.com, '+r.asof,r.src))}
- ${card('Price-target range',tbl(['',''],[['High','$515 (+60.8%)'],['Mean','$430.51 (+34.5%)'],['Median','$430'],['Low','$340 (+6.2%)']]),SRCL('stockanalysis.com, 22 Oct 2026',r.src))}</div>
+ ${card('Price-target range',tbl(['',''],r.range||[]),SRCL('S&P Global via stockanalysis.com, '+(r.rangeAsof||'n/a'),r.src))}</div>
  ${card(T('Price targets'),tbl(['Firm','Rating','Target',T('Date')],D.analysts),SRCL('stockanalysis.com forecasts',r.src))}
  ${card(T('Labelled estimates'),tbl(['Estimate','Value',T('Source')],D.est.map(e=>[e[0],'<span class="est e">'+'estimate'+'</span> '+e[1],lk(e[2],e[3])])),'<p class="src">'+'EPS/revenue consensus history over time: n/a (no free dated source).'+'</p>')}`};
 S.insiders=()=>{const I=SEC.ins;return `<h1>${T('Insiders')}</h1><p class="sub">${'SEC Form 4, latest 60 filings, newest first. Codes: S sale, A grant, F tax withholding, C conversion, G gift, J other.'}</p>
