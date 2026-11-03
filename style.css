@@ -39,3 +39,5 @@ nav{justify-content:flex-start;flex-wrap:nowrap;scrollbar-width:none}
 .hcard .v{font-size:30px}
 
 .updated{font-size:13px;color:var(--mut,#86868b);margin-top:4px;letter-spacing:.01em}
+
+.week li.recent{color:var(--txt);font-weight:500}.week li.recent .d{color:var(--acc);font-weight:600}.week li.recent a{color:var(--acc)}.week li:not(.recent){color:var(--mut)}.asof .rk{color:var(--acc)}

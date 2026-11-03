@@ -29,7 +29,7 @@ const tbl=(head,rows)=>`<div class="tw"><table><tr>${head.map(h=>`<th>${h}</th>`
 const hc=(l,v,s,id)=>`<div class="hcard"><div class="l">${l}</div><div class="v"${id?` id="${id}"`:''}>${v}</div><div class="s src">${s}</div></div>`;
 const ttm=a=>a.slice(-4).reduce((x,y)=>x+y,0);
 const pdate=s=>{const t=Date.parse(s.replace(/\(.*\)/,''));return isNaN(t)?0:t};
-const WN=()=>D.whatsNewThisWeek||[];const fd=s=>{const d=new Date(s+'T00:00:00Z');return isNaN(d)?s:d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric',timeZone:'UTC'})};
+const WN=()=>D.whatsNewThisWeek||[];const _td=()=>new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Singapore'}).replace(/,.*/,'')+' UTC');const _dd=s=>(_td()-new Date(s+'T00:00:00Z'))/864e5;const rec=s=>_dd(s)<=2;const WNS=()=>WN().filter(w=>_dd(w.date)<=7).sort((x,y)=>y.date.localeCompare(x.date));const CU=()=>(D.comingUp||[]).filter(w=>_dd(w.date)<=0).sort((x,y)=>x.date.localeCompare(y.date));const fd=s=>{const d=new Date(s+'T00:00:00Z');return isNaN(d)?s:d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric',timeZone:'UTC'})};
 /* ---------- sections ---------- */
 const S={};
 S.overview=()=>{const fcf=SEC.fs.cf.find(r=>r[0]==='Free cash flow').slice(1),tf=ttm(fcf),r=D.ratings,n=r.sb+r.b+r.h+r.s;
@@ -39,7 +39,8 @@ S.overview=()=>{const fcf=SEC.fs.cf.find(r=>r[0]==='Free cash flow').slice(1),tf
  ${hc(T('Forward P/E'),(D.val.fpe||'n/a')+'x',`${'Trailing'} ${D.val.pe||'n/a'}x ${'(inflated by equity gains)'} · ${lk(D.val.asof||'stockanalysis.com',D.val.src)}`)}
  ${hc(T('EV/EBITDA'),(D.val.evebitda||'n/a')+'x',`EV $${(D.val.ev/1e12).toFixed(2)}T · ${lk(D.val.asof||'stockanalysis.com',D.val.src)}`)}
  ${hc(T('Consensus'),'Strong Buy',`${T('Mean target')} <b>${r.mean?'$'+r.mean.toFixed(2):'n/a'}</b> · ${r.sb}/${r.b}/${r.h}/${r.s} (${n}) · ${lk('S&P Global via stockanalysis, '+r.asof,r.src)}`)}</div>
- ${card('What’s new this week',`<p class="asof">Latest item: ${WN()[0]?fd(WN()[0].date):'n/a'} · newest first · from daily scans (Mon–Sat)</p><ul class="week">${WN().map(w=>`<li><span class="d">${fd(w.date)}</span>${w.url?lk(w.headline,w.url):w.headline}${w.detail?` <span class="src">${w.detail}</span>`:''}</li>`).join('')}</ul>`)}
+ ${card('What’s new this week',`<p class="asof">Last 7 days · newest first (by date) · <span class="rk">●</span> within 48 hours · from daily scans (Mon–Sat)</p><ul class="week">${WNS().map(w=>`<li class="${rec(w.date)?'recent':''}"><span class="d">${fd(w.date)}</span>${w.url?lk(w.headline,w.url):w.headline}${w.detail?` <span class="src">${w.detail}</span>`:''}</li>`).join('')}</ul>`)}
+ ${(D.comingUp||[]).length?card('Coming up',`<p class="asof">Dated future catalysts · soonest first</p><ul class="week">${CU().map(w=>`<li><span class="d">${fd(w.date)}</span>${w.url?lk(w.headline,w.url):w.headline}${w.detail?` <span class="src">${w.detail}</span>`:''}</li>`).join('')}</ul>`):''}
  <div class="h2row"><div class="mini"><div class="l">${T('52-week range')}</div><div class="v">$${D.close.lo}–$${D.close.hi}</div></div>
  <div class="mini"><div class="l">${'TTM free cash flow'}</div><div class="v">${b1(tf/1e9)}</div><div class="s">${lk('SEC XBRL',XBRL)}</div></div>
  <div class="mini"><div class="l">${'FY2026 capex guide'}</div><div class="v">$195–205bn</div><div class="s">${lk('Q3 call','https://stockanalysis.com/stocks/googl/transcripts/712854-q3-2026/')}</div></div>
