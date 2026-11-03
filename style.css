@@ -1,6 +1,6 @@
 
 :root{--font:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,"PingFang SC","Noto Sans CJK SC",sans-serif;--bg:#f5f5f7;--panel:#fff;--txt:#1d1d1f;--mut:#6e6e73;--line:rgba(0,0,0,.08);--acc:#1a73e8;--accsoft:rgba(26,115,232,.08);--pos:#1d8a3a;--neg:#d70015;--glass:rgba(251,251,253,.85)}
-@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#000;--panel:#161617;--txt:#f5f5f7;--mut:#a1a1a6;--line:rgba(255,255,255,.1);--acc:#4aa3ff;--accsoft:rgba(74,163,255,.14);--pos:#30d158;--neg:#ff453a;--glass:rgba(22,22,23,.8)}}:root[data-theme=dark]{--bg:#000;--panel:#161617;--txt:#f5f5f7;--mut:#a1a1a6;--line:rgba(255,255,255,.1);--acc:#4aa3ff;--accsoft:rgba(74,163,255,.14);--pos:#30d158;--neg:#ff453a;--glass:rgba(22,22,23,.8)}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#000;--panel:#161617;--txt:#f5f5f7;--mut:#a1a1a6;--line:rgba(255,255,255,.1);--acc:#8ab4f8;--accsoft:rgba(138,180,248,.16);--pos:#30d158;--neg:#ff453a;--glass:rgba(22,22,23,.8)}}:root[data-theme=dark]{--bg:#000;--panel:#161617;--txt:#f5f5f7;--mut:#a1a1a6;--line:rgba(255,255,255,.1);--acc:#8ab4f8;--accsoft:rgba(138,180,248,.16);--pos:#30d158;--neg:#ff453a;--glass:rgba(22,22,23,.8)}
 .themebtn{flex:none;border:0;background:transparent;color:var(--mut);border-radius:980px;height:30px;padding:0 8px;font-size:12px;cursor:pointer;display:flex;align-items:center;gap:6px}.themebtn:hover{color:var(--acc)}
 .lq{display:flex;flex-wrap:wrap;align-items:baseline;gap:14px}.lq .px{font-size:34px;font-weight:600;font-variant-numeric:tabular-nums}.lq .ch{font-size:18px;font-weight:500}
 .hero{padding:28px 0 8px}.hero h1{font-size:48px;line-height:1.05;font-weight:700;letter-spacing:-.04em;margin:0 0 10px}.hero h1 .tk{color:var(--acc)}
@@ -23,7 +23,7 @@ h1{font-size:32px;margin:0 0 4px;letter-spacing:-.02em}h2{font-size:19px;margin:
 .card{background:var(--panel);border-radius:18px;padding:22px 24px;margin-bottom:20px;box-shadow:0 2px 12px rgba(0,0,0,.035)}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px}.kpi{background:var(--panel);border-radius:16px;padding:16px 18px}.kpi .k{font-size:12px;color:var(--mut)}.kpi .v{font-size:22px;font-weight:600;margin-top:4px}
 table{width:100%;border-collapse:collapse;font-size:13px}th{text-align:left;color:var(--mut);font-weight:500;font-size:12px;padding:8px 10px;border-bottom:1px solid var(--line)}td{padding:8px 6px;border-bottom:1px solid var(--line);vertical-align:top}td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
-.week li{margin:0 0 10px}.week .d{display:inline-block;min-width:92px;color:var(--mut);font-variant-numeric:tabular-nums}
+.week li{margin:0 0 10px}.week li.new48 a,.week li.new48{color:var(--acc);font-weight:600}.week li.new48 .src{font-weight:400}.week .nb{display:inline-block;background:var(--acc);color:#fff;font-size:11px;border-radius:8px;padding:0 6px;margin-right:6px;font-weight:600;vertical-align:1px}.week .d{display:inline-block;min-width:92px;color:var(--mut);font-variant-numeric:tabular-nums}
 .na{color:var(--mut);font-style:italic}.pos{color:var(--pos)}.neg{color:var(--neg)}.src{font-size:12px;color:var(--mut)}
 .q{border-left:3px solid var(--acc);padding:4px 0 4px 14px;margin:0 0 18px}.q .t{font-size:15px}.q .z{color:var(--mut);margin-top:4px}.q .m{font-size:12px;color:var(--mut);margin-top:6px}
 .cw{position:relative;height:320px}.two{display:grid;grid-template-columns:1fr 1fr;gap:20px}@media(max-width:800px){.two{grid-template-columns:1fr}.bar{padding:0 14px}main{padding:20px 14px}}
@@ -40,4 +40,4 @@ nav{justify-content:flex-start;flex-wrap:nowrap;scrollbar-width:none}
 
 .updated{font-size:13px;color:var(--mut,#86868b);margin-top:4px;letter-spacing:.01em}
 
-.week li.recent{color:var(--txt);font-weight:500}.week li.recent .d{color:var(--acc);font-weight:600}.week li.recent a{color:var(--acc)}.week li:not(.recent){color:var(--mut)}.asof .rk{color:var(--acc)}
+.week li:not(.new48){color:var(--mut)}.week li.new48 .d{color:var(--acc)}.asof .rk{color:var(--acc)}.card.accent{border-left:4px solid var(--acc)}
