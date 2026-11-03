@@ -1,9 +1,9 @@
-// goog-dashboard Worker: GET /api/quote (live quote, keyless, CORS *). ?symbol=GOOGL (default) or GOOG.
-// ?symbol= optional: GOOGL (default) or GOOG (allowlist; anything else -> 400). Market hours/holidays: XNAS calendar.
+// goog-dashboard Worker: GET /api/quote (live quote, keyless, CORS *). ?symbol=GOOG (default) or GOOG.
+// ?symbol= optional: GOOG (default) or GOOGL (allowlist; anything else -> 400). Market hours/holidays: XNAS calendar.
 // Sources, in order: Robinhood public quotes (bounds=24_5: Nasdaq last sale + extended/overnight prints, no key),
 // then Nasdaq.com quote API. Cached in-isolate ~12 s.
 const SYMBOLS = { GOOGL: { exchange: 'Nasdaq' }, GOOG: { exchange: 'Nasdaq' } }; // allowlist
-const DEFAULT_SYMBOL = 'GOOGL';
+const DEFAULT_SYMBOL = 'GOOG';
 const TTL_MS = 12000;
 const UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36';
 const caches_ = {}; // symbol -> { at, body }
@@ -140,6 +140,6 @@ export default {
         headers: { ...CORS, 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'public, max-age=10' },
       });
     }
-    return env.ASSETS ? env.ASSETS.fetch(request) : new Response('goog-dashboard quote worker: use /api/quote?symbol=GOOGL', { status: 404, headers: CORS });
+    return env.ASSETS ? env.ASSETS.fetch(request) : new Response('goog-dashboard quote worker: use /api/quote?symbol=GOOG', { status: 404, headers: CORS });
   },
 };
