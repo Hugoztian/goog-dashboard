@@ -37,3 +37,5 @@ nav{justify-content:flex-start;flex-wrap:nowrap;scrollbar-width:none}
 .callout{border-left:4px solid var(--acc)}h3{font-size:14px;margin:8px 0 6px;color:var(--mut)}
 .vid{display:flex;gap:16px}.vid img{width:240px;border-radius:12px}@media(max-width:700px){.vid{flex-direction:column}.vid img{width:100%}}
 .hcard .v{font-size:30px}
+
+.updated{font-size:13px;color:var(--mut,#86868b);margin-top:4px;letter-spacing:.01em}

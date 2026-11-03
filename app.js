@@ -33,7 +33,7 @@ const WN=()=>D.whatsNewThisWeek||[];const fd=s=>{const d=new Date(s+'T00:00:00Z'
 /* ---------- sections ---------- */
 const S={};
 S.overview=()=>{const fcf=SEC.fs.cf.find(r=>r[0]==='Free cash flow').slice(1),tf=ttm(fcf),r=D.ratings,n=r.sb+r.b+r.h+r.s;
- return `<div class="hero"><h1>Alphabet <span class="tk">GOOG</span></h1></div>
+ return `<div class="hero"><h1>Alphabet <span class="tk">GOOG</span></h1>${D.lastUpdated?`<div class="updated">Last updated ${D.lastUpdated}</div>`:""}</div>
  ${card(`<span class="livedot"></span> ${T('Live price')}`,`<div id="lq">${quoteHTML()}</div>`)}
  <div class="h4">${hc(T('Market cap'),mcapTxt(),`${'Scaled from'} $${(D.val.mcap/1e12).toFixed(2)}T @ $${D.val.px0.toFixed(2)} · ${lk(D.val.asof||'stockanalysis.com',D.val.src)}`,'mcap')}
  ${hc(T('Forward P/E'),(D.val.fpe||'n/a')+'x',`${'Trailing'} ${D.val.pe||'n/a'}x ${'(inflated by equity gains)'} · ${lk(D.val.asof||'stockanalysis.com',D.val.src)}`)}
