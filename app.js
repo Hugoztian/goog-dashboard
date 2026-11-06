@@ -4,8 +4,8 @@ const lk=(s,u)=>u?`<a href="${u}" target="_blank" rel="noopener">${s}</a>`:s,na=
 const bn=v=>v==null?na():(v<0?'−':'')+'$'+(Math.abs(v)/1e9).toFixed(2)+'bn',b1=v=>(v<0?'−':'')+'$'+Math.abs(v).toFixed(1)+'bn';
 const ql=d=>({'03-31':'Q1','06-30':'Q2','09-30':'Q3','12-31':'Q4'}[d.slice(5)])+' '+d.slice(0,4);
 const SRCL=(s,u)=>`<p class="src">${T('Source')}: ${lk(s,u)}</p>`,XBRL='https://data.sec.gov/api/xbrl/companyfacts/CIK0001652044.json';
-const TABS=[['overview','Overview'],['financials','Financials'],['segments','Segments'],['compute','TPU & compute'],['ai','AI & Gemini rollout'],['waymo','Waymo & Other Bets'],['calls','Earnings calls'],['estimates','Wall Street estimates'],['insiders','Insiders'],['filings','SEC filings'],['legal','Regulatory & antitrust'],['people','Key people'],['video','YouTube / video'],['holders','13F holders'],['catalysts','Catalysts'],['sources','Sources & news'],['position','My position']];
-let charts=[],FS='is';
+const TABS=[['overview','Overview'],['financials','Financials'],['ai','AI & CapEx'],['waymo','Waymo & bets'],['ownership','Ownership'],['governance','Governance']];
+let charts=[],FS='is',SUB={financials:'financials',ai:'compute',ownership:'insiders',governance:'filings'};
 /* ---------- live quote: own worker (planned) -> Micron worker (temporary) -> CNBC -> build-time close ---------- */
 const QSRC=[['GOOG worker',(/\.workers\.dev$/.test(location.hostname)?'/api/quote':'https://goog-dashboard.cashcache.workers.dev/api/quote')+'?symbol=GOOG'],['Micron quote worker (temporary fallback)','https://micron-dashboard.cashcache.workers.dev/api/quote?symbol=GOOG']];
 const CNBC='https://quote.cnbc.com/quote-html-webservice/restQuote/symbolType/symbol?symbols=GOOG&requestMethod=itv&noform=1&partnerId=2&fund=1&exthrs=1&output=json&events=1';
@@ -106,12 +106,17 @@ S.catalysts=()=>`<h1>${T('Catalysts')}</h1>${card('',tbl([T('Date'),T('Event'),T
 S.sources=()=>`<h1>${T('Sources & news')}</h1>${card('What’s new this week',`<ul class="week">${WN().map(w=>`<li><span class="d">${fd(w.date)}</span>${w.url?lk(w.headline,w.url):w.headline}${w.detail?` <span class="src">${w.detail}</span>`:''}</li>`).join('')}</ul>`)}
  ${card(T('Source'),`<ul class="lst">${D.sources.map(s=>`<li>${lk(s[0],s[1])}</li>`).join('')}<li>${lk('SEC EDGAR XBRL companyfacts (CIK 1652044)',XBRL)}</li></ul>`)}`;
 S.position=()=>`<h1>${T('My position')}</h1>${card('',tbl(['',''],[[T('Shares'),T('Not yet provided')],['Cost basis',T('Not yet provided')],['Unrealised P/L',T('Not yet provided')]]))}`;
+/* ---------- consolidated pages (6 tabs) ---------- */
+const SUBS={financials:[['financials','Statements'],['segments','Segments'],['calls','Calls'],['estimates','Estimates']],ai:[['compute','CapEx & TPU'],['ai','Gemini rollout']],ownership:[['insiders','Insiders'],['holders','13F holders'],['position','My position']],governance:[['filings','Filings'],['legal','Legal'],['people','People'],['video','Video']]};
+const ALIAS={segments:['financials','segments'],calls:['financials','calls'],estimates:['financials','estimates'],compute:['ai','compute'],insiders:['ownership','insiders'],holders:['ownership','holders'],position:['ownership','position'],filings:['governance','filings'],legal:['governance','legal'],people:['governance','people'],video:['governance','video'],catalysts:['overview',null],sources:['overview',null]};
+const P={overview:()=>S.overview()+`<div class="merged">${S.catalysts()}</div><div class="merged">${S.sources()}</div>`,waymo:()=>S.waymo()};
+Object.keys(SUBS).forEach(k=>{P[k]=()=>`<div class="seg subnav">${SUBS[k].map(([s,n])=>`<button class="${s===SUB[k]?'on':''}" onclick="SUB['${k}']='${s}';render()">${n}</button>`).join('')}</div>${S[SUB[k]]()}`});
 /* ---------- render ---------- */
 function mk(id,cfg){const e=document.getElementById(id);if(e){cfg.options=Object.assign({maintainAspectRatio:false,animation:false},cfg.options||{});charts.push(new Chart(e,cfg))}}
 const G=['#4285F4','#EA4335','#FBBC05','#34A853','#7a2fd6','#8e8e93'];
-function render(){const tab=(location.hash||'#overview').slice(1),t=S[tab]?tab:'overview';
+function render(){let tab=(location.hash||'#overview').slice(1);if(ALIAS[tab]){const[a,b]=ALIAS[tab];if(b)SUB[a]=b;tab=a;history.replaceState(null,'','#'+a)}const t=P[tab]?tab:'overview';
  document.getElementById('nav').innerHTML=TABS.map(([k,n])=>`<a href="#${k}" class="${k===t?'on':''}">${T(n)}</a>`).join('');
- charts.forEach(c=>c.destroy());charts=[];document.getElementById('main').innerHTML=`<section class="on">${S[t]()}</section>`;
+ charts.forEach(c=>c.destroy());charts=[];document.getElementById('main').innerHTML=`<section class="on">${P[t]()}</section>`;
  const F=SEC.fs,lab=F.cols.map(ql),row=(sec,n)=>F[sec].find(r=>r[0]===n).slice(1).map(v=>v==null?null:v/1e9);
  mk('f1',{type:'bar',data:{labels:lab,datasets:[{label:T('Revenue'),data:row('is','Revenue'),backgroundColor:G[0]},{label:T('Operating income'),data:row('is','Operating income'),backgroundColor:G[3]}]}});
  mk('f2',{type:'bar',data:{labels:lab,datasets:[{label:T('Operating cash flow'),data:row('cf','Operating cash flow'),backgroundColor:G[0]},{label:T('Capex'),data:row('cf','Capex'),backgroundColor:G[1]},{label:T('Free cash flow'),data:row('cf','Free cash flow'),backgroundColor:G[3]}]}});

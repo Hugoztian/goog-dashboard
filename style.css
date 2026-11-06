@@ -41,3 +41,4 @@ nav{justify-content:flex-start;flex-wrap:nowrap;scrollbar-width:none}
 .updated{font-size:13px;color:var(--mut,#86868b);margin-top:4px;letter-spacing:.01em}
 
 .week li:not(.new48){color:var(--mut)}.week li.new48 .d{color:var(--acc)}.asof .rk{color:var(--acc)}.card.accent{border-left:4px solid var(--acc)}
+.merged{margin-top:40px}.subnav{flex-wrap:wrap;margin-bottom:20px}
