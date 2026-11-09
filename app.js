@@ -33,21 +33,22 @@ const WN=()=>D.whatsNewThisWeek||[];const _td=()=>new Date(new Date().toLocaleSt
 /* ---------- sections ---------- */
 const S={};
 S.overview=()=>{const fcf=SEC.fs.cf.find(r=>r[0]==='Free cash flow').slice(1),tf=ttm(fcf),r=D.ratings,n=r.sb+r.b+r.h+r.s;
- return `<div class="hero"><h1>Alphabet <span class="tk">GOOG</span></h1>${D.lastUpdated?`<div class="updated">Last updated ${D.lastUpdated}</div>`:""}</div>
+ const wn=card('What’s new this week',`<p class="asof">Last 7 days · newest first (by date) · <span class="nb">48h</span> within 48 hours · from daily scans (Mon–Sat)</p><ul class="week">${WNS().map(w=>`<li class="${rec(w.date)?'new48':''}"><span class="d">${fd(w.date)}</span>${rec(w.date)?'<span class="nb">48h</span>':''}${w.url?lk(w.headline,w.url):w.headline}${w.detail?` <span class="src">${w.detail}</span>`:''}</li>`).join('')}</ul>`,'','accent');
+ const cu=(D.comingUp||[]).length?card('Coming up',`<p class="asof">Dated future catalysts · soonest first</p><ul class="week">${CU().map(w=>`<li><span class="d">${fd(w.date)}</span>${w.url?lk(w.headline,w.url):w.headline}${w.detail?` <span class="src">${w.detail}</span>`:''}</li>`).join('')}</ul>`,'','accent'):'';
+ return `${D.lastUpdated?`<div class="updated">Last updated ${D.lastUpdated}</div>`:''}
  ${card(`<span class="livedot"></span> ${T('Live price')}`,`<div id="lq">${quoteHTML()}</div>`)}
  <div class="h4">${hc(T('Market cap'),mcapTxt(),`${'Scaled from'} $${(D.val.mcap/1e12).toFixed(2)}T @ $${D.val.px0.toFixed(2)} · ${lk(D.val.asof||'stockanalysis.com',D.val.src)}`,'mcap')}
  ${hc(T('Forward P/E'),(D.val.fpe||'n/a')+'x',`${'Trailing'} ${D.val.pe||'n/a'}x ${'(inflated by equity gains)'} · ${lk(D.val.asof||'stockanalysis.com',D.val.src)}`)}
  ${hc(T('EV/EBITDA'),(D.val.evebitda||'n/a')+'x',`EV $${(D.val.ev/1e12).toFixed(2)}T · ${lk(D.val.asof||'stockanalysis.com',D.val.src)}`)}
  ${hc(T('Consensus'),'Strong Buy',`${T('Mean target')} <b>${r.mean?'$'+r.mean.toFixed(2):'n/a'}</b> · ${r.sb}/${r.b}/${r.h}/${r.s} (${n}) · ${lk('S&P Global via stockanalysis, '+r.asof,r.src)}`)}</div>
- ${card('What’s new this week',`<p class="asof">Last 7 days · newest first (by date) · <span class="nb">48h</span> within 48 hours · from daily scans (Mon–Sat)</p><ul class="week">${WNS().map(w=>`<li class="${rec(w.date)?'new48':''}"><span class="d">${fd(w.date)}</span>${rec(w.date)?'<span class="nb">48h</span>':''}${w.url?lk(w.headline,w.url):w.headline}${w.detail?` <span class="src">${w.detail}</span>`:''}</li>`).join('')}</ul>`,'','accent')}
- ${(D.comingUp||[]).length?card('Coming up',`<p class="asof">Dated future catalysts · soonest first</p><ul class="week">${CU().map(w=>`<li><span class="d">${fd(w.date)}</span>${w.url?lk(w.headline,w.url):w.headline}${w.detail?` <span class="src">${w.detail}</span>`:''}</li>`).join('')}</ul>`,'','accent'):''}
  <div class="h2row"><div class="mini"><div class="l">${T('52-week range')}</div><div class="v">$${D.close.lo}–$${D.close.hi}</div></div>
  <div class="mini"><div class="l">${'TTM free cash flow'}</div><div class="v">${b1(tf/1e9)}</div><div class="s">${lk('SEC XBRL',XBRL)}</div></div>
  <div class="mini"><div class="l">${'FY2026 capex guide'}</div><div class="v">$195–205bn</div><div class="s">${lk('Q3 call','https://stockanalysis.com/stocks/googl/transcripts/712854-q3-2026/')}</div></div>
  <div class="mini"><div class="l">FY2027 capex</div><div class="v">↑ significantly</div><div class="s">mgmt; $ n/a until Q4 call</div></div>
  <div class="mini"><div class="l">${'Next earnings'}</div><div class="v">n/a</div><div class="s">Q4 2026 date not yet announced (checked 30 Oct 2026); Q3 reported 28 Oct</div></div></div>
- <div class="card callout"><b>${T('Trailing P/E caveat')}.</b> ${'Q1 and Q2 2026 net income include $37.7bn and $98.0bn of other income, mostly unrealized gains on equity stakes. Use forward P/E or operating income.'} ${lk('Q2 2026 call',D.q2call)}</div>
- ${card(`GOOG ${'chart'} <span class="src">NASDAQ:GOOG · TradingView</span>`,'<div class="tvchart" id="tv"></div>',SRCL('TradingView NASDAQ:GOOG','https://www.tradingview.com/symbols/NASDAQ-GOOG/'))}`};
+ <h1>Overview</h1><p class="sub">Alphabet <span class="tk">GOOG</span> · NASDAQ:GOOG (Class C)</p>
+ <div class="wncu">${wn}${cu}</div>
+ <div class="card callout"><b>${T('Trailing P/E caveat')}.</b> ${'Q1 and Q2 2026 net income include $37.7bn and $98.0bn of other income, mostly unrealized gains on equity stakes. Use forward P/E or operating income.'} ${lk('Q2 2026 call',D.q2call)}</div>`};
 S.financials=()=>{const F=SEC.fs,C=F.cols,isE=l=>/EPS/.test(l),rows=F[FS],A=SEC.annual;
  const fmt=(l,v)=>v==null?na():isE(l)?'$'+v.toFixed(2):bn(v);
  return `<h1>${T('Financials')}</h1><p class="sub">${'SEC EDGAR XBRL companyfacts (CIK 1652044); each column links to its 10-Q/10-K. Built'} ${SEC.built}.</p>
@@ -108,9 +109,10 @@ S.sources=()=>`<h1>${T('Sources & news')}</h1>${card('What’s new this week',`<
 S.position=()=>`<h1>${T('My position')}</h1>${card('',tbl(['',''],[[T('Shares'),T('Not yet provided')],['Cost basis',T('Not yet provided')],['Unrealised P/L',T('Not yet provided')]]))}`;
 /* ---------- consolidated pages (6 tabs) ---------- */
 const SUBS={financials:[['financials','Statements'],['segments','Segments'],['calls','Calls'],['estimates','Estimates']],ai:[['compute','CapEx & TPU'],['ai','Gemini rollout']],ownership:[['insiders','Insiders'],['holders','13F holders'],['position','My position']],governance:[['filings','Filings'],['legal','Legal'],['people','People'],['video','Video']]};
-const ALIAS={segments:['financials','segments'],calls:['financials','calls'],estimates:['financials','estimates'],compute:['ai','compute'],insiders:['ownership','insiders'],holders:['ownership','holders'],position:['ownership','position'],filings:['governance','filings'],legal:['governance','legal'],people:['governance','people'],video:['governance','video'],catalysts:['overview',null],sources:['overview',null]};
+const ALIAS={segments:['financials','segments'],calls:['financials','calls'],estimates:['financials','estimates'],compute:['ai','compute'],insiders:['ownership','insiders'],holders:['ownership','holders'],position:['ownership','position'],filings:['governance','filings'],legal:['governance','legal'],people:['governance','people'],video:['governance','video'],catalysts:['overview',null],sources:['overview',null],chart:['financials',null],tv:['financials',null],'price-chart':['financials',null]};
+const TVCHART=()=>card('Live price chart (GOOG) <span class="src">NASDAQ:GOOG · TradingView</span>','<div class="tvchart" id="tv"></div>',SRCL('TradingView NASDAQ:GOOG','https://www.tradingview.com/symbols/NASDAQ-GOOG/'));
 const P={overview:()=>S.overview()+`<div class="merged">${S.catalysts()}</div><div class="merged">${S.sources()}</div>`,waymo:()=>S.waymo()};
-Object.keys(SUBS).forEach(k=>{P[k]=()=>`<div class="seg subnav">${SUBS[k].map(([s,n])=>`<button class="${s===SUB[k]?'on':''}" onclick="SUB['${k}']='${s}';render()">${n}</button>`).join('')}</div>${S[SUB[k]]()}`});
+Object.keys(SUBS).forEach(k=>{P[k]=()=>`<div class="seg subnav">${SUBS[k].map(([s,n])=>`<button class="${s===SUB[k]?'on':''}" onclick="SUB['${k}']='${s}';render()">${n}</button>`).join('')}</div>${S[SUB[k]]()}${k==='financials'?TVCHART():''}`});
 /* ---------- render ---------- */
 function mk(id,cfg){const e=document.getElementById(id);if(e){cfg.options=Object.assign({maintainAspectRatio:false,animation:false},cfg.options||{});charts.push(new Chart(e,cfg))}}
 const G=['#4285F4','#EA4335','#FBBC05','#34A853','#7a2fd6','#8e8e93'];
